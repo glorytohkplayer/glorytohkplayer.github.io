@@ -10,17 +10,7 @@
       var startTime;
      window.onload = function() {
         audio = document.getElementById("glorymp3");
-        document.querySelector('#mp3file').addEventListener('change', function(e){
-            var file = e.target.files[0];
-            console.log(e, file);
-            if(file.type.match('audio.*')) { // if its an audio file
-               audio.src = URL.createObjectURL(file);
-               
-              //audio.src = document.getElementById('mp3file').getAttribute('data-value');
-              //audio.load();
-            }
-         });
-         startTime = document.getElementById("startTime");
+        startTime = document.getElementById("startTime");
         startTime.addEventListener("input", function() {
         timerReset(); 
       }, false);
