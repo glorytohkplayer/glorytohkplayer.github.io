@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Glory Player on Time</title>
+    <script src="./audiojs/audio.min.js"></script>
+    <link rel="stylesheet" href="./includes/index.css" media="screen">
+    <script>
+      var audio;
+      var startTime;
+     window.onload = function() {
+        audio = document.getElementById("glorymp3");
+        document.querySelector('#mp3file').addEventListener('change', function(e){
+            var file = e.target.files[0];
+            console.log(e, file);
+            if(file.type.match('audio.*')) { // if its an audio file
+               audio.src = URL.createObjectURL(file);
+               
+              //audio.src = document.getElementById('mp3file').getAttribute('data-value');
+              //audio.load();
+            }
+         });
+         startTime = document.getElementById("startTime");
+        startTime.addEventListener("input", function() {
+        timerReset(); 
+      }, false);
+    }
+
+      audiojs.events.ready(function() {
+        audiojs.createAll();
+      });
+    
+   
+
+      function timerReset(){ 
+        var nn = new Date();
+        var month = nn.getMonth() + 1; //months from 1-12
+        var day = nn.getDate();
+        var year = nn.getFullYear();
+
+        var setDate=new Date( nn.toISOString().split('T')[0] + " " +  startTime.value);
+
+        var millisTill10 = setDate - nn;
+        console.log("now "+ nn.toISOString().split('T')[0] + " millisTill10 "+millisTill10);
+        if (millisTill10 <= 0) {
+            millisTill10 += 86400000; // it's after 10am, try 10am tomorrow.
+        }
+        setTimeout(function(){ audio.play()}, millisTill10);
+      }
+
+  /*  $("input[type=file]").change(function(){
+            alert($(this).val());
+        });
+        */
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>Glory Player</h1>
+    </header>
+    <label for="startTime">Choose audio play time: </label>
+    <input id="startTime" type="time" name="startTime" value="22:00"  > 
+    <audio src="glorytohongkong.mp3" preload="auto" id="glorymp3"></audio> 
+    <footer>
+    </footer>
+  </body>
+</html>
